@@ -1,19 +1,20 @@
 import "../styles/globals.css";
 import "@meshsdk/react/styles.css";
 import type { AppProps } from "next/app";
-import { CardanoWallet, MeshProvider } from "@meshsdk/react";
-import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
+import { MeshProvider } from "@meshsdk/react";
+import { ChakraProvider, defaultSystem, Theme } from "@chakra-ui/react";
+import { Header } from "@/components/Header";
 
 function App({ Component, pageProps }: AppProps) {
   return (
-    <MeshProvider>
-      <ChakraProvider value={defaultSystem}>
-        <>
-          <CardanoWallet />
+    <ChakraProvider value={defaultSystem}>
+      <MeshProvider>
+        <Theme appearance="dark" colorPalette="pink">
+          <Header />
           <Component {...pageProps} />
-        </>
-      </ChakraProvider>
-    </MeshProvider>
+        </Theme>
+      </MeshProvider>
+    </ChakraProvider>
   );
 }
 
