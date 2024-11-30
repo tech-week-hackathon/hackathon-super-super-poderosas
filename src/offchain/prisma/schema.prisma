@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int      @id @default(autoincrement())
+  address        String   @unique
+  minigob        MiniGob? @relation(fields: [minigobId], references: [id])
+  minigobId      Int?
+  actionId       Int?
+  action_yes     Action?  @relation("VoteYes", fields: [actionId], references: [id])
+  action_no      Action?  @relation("VoteNo", fields: [actionId], references: [id])
+  action_abstain Action?  @relation("VoteAbstain", fields: [actionId], references: [id])
+}
+
+model MiniGob {
+  id               Int    @id @default(autoincrement())
+  name             String
+  delegationAmount Int
+  members          User[]
+}
+
+model Action {
+  id           Int    @id @default(autoincrement())
+  vote_yes     User[] @relation("VoteYes")
+  vote_no      User[] @relation("VoteNo")
+  vote_abstain User[] @relation("VoteAbstain")
+  userId       Int?
+}
