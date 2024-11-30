@@ -1,0 +1,410 @@
+{
+  "preamble": {
+    "title": "txpipe/onchain",
+    "description": "Aiken contracts for project 'txpipe/onchain'",
+    "version": "0.0.0",
+    "plutusVersion": "v3",
+    "compiler": {
+      "name": "Aiken",
+      "version": "v1.1.7+e2fb28b"
+    },
+    "license": "Apache-2.0"
+  },
+  "validators": [
+    {
+      "title": "main.ble.spend",
+      "datum": {
+        "title": "datum",
+        "schema": {
+          "$ref": "#/definitions/types~1MiniPropDatum"
+        }
+      },
+      "redeemer": {
+        "title": "redeemer",
+        "schema": {
+          "$ref": "#/definitions/types~1MiniPropRedeemer"
+        }
+      },
+      "parameters": [
+        {
+          "title": "voting_token_asset_class",
+          "schema": {
+            "$ref": "#/definitions/types~1AssetClass"
+          }
+        },
+        {
+          "title": "drep_id",
+          "schema": {
+            "$ref": "#/definitions/cardano~1governance~1Voter"
+          }
+        },
+        {
+          "title": "lock_script_hash",
+          "schema": {
+            "$ref": "#/definitions/ScriptHash"
+          }
+        }
+      ],
+      "compiledCode": "5901db0101003232323232323222232253330063232323232325323233300e30020031323322323253330133006001132325333018301b00200416375a6032002602a6ea802854ccc04cc01c00454ccc058c054dd50050010b0a99980999b874801000454ccc058c054dd50050010b0b18099baa009132533301230053013375400226464a666028600e002264944dd6980c980b1baa00b15333014300800114a22944c050dd5005180b980a1baa0011632330010013758602e60286ea8028894ccc058004530103d87a80001332253330153375e6034602e6ea80080184cdd2a40006603200497ae013300400400130180013019001301400130143015001301037540082a66601c600200626464a666020600600226464a66602a60300042a666024600a60266ea80044c8c8c8c94ccc064c0700085858dd6980d000980d0011bae3018001301437540022c2c602c00260246ea801c54ccc040c01000454ccc04cc048dd50038b0b0b18081baa006375c602660206ea801054ccc038cdc3a4010006264a66601e600460206ea801854ccc048c044dd50030b0b0b180998081baa00416370e90001b8748008c030dd50009807980800198070011806801180680098041baa00114984d958dd7000ab9a5573aaae7955cfaba05742ae881",
+      "hash": "64e994c847001eb0c5792034547b4b9a2d173b09dc6c6b5ff3d1f78a"
+    },
+    {
+      "title": "main.ble.mint",
+      "redeemer": {
+        "title": "redeemer",
+        "schema": {
+          "$ref": "#/definitions/types~1MintingRedeemer"
+        }
+      },
+      "parameters": [
+        {
+          "title": "voting_token_asset_class",
+          "schema": {
+            "$ref": "#/definitions/types~1AssetClass"
+          }
+        },
+        {
+          "title": "drep_id",
+          "schema": {
+            "$ref": "#/definitions/cardano~1governance~1Voter"
+          }
+        },
+        {
+          "title": "lock_script_hash",
+          "schema": {
+            "$ref": "#/definitions/ScriptHash"
+          }
+        }
+      ],
+      "compiledCode": "5901db0101003232323232323222232253330063232323232325323233300e30020031323322323253330133006001132325333018301b00200416375a6032002602a6ea802854ccc04cc01c00454ccc058c054dd50050010b0a99980999b874801000454ccc058c054dd50050010b0b18099baa009132533301230053013375400226464a666028600e002264944dd6980c980b1baa00b15333014300800114a22944c050dd5005180b980a1baa0011632330010013758602e60286ea8028894ccc058004530103d87a80001332253330153375e6034602e6ea80080184cdd2a40006603200497ae013300400400130180013019001301400130143015001301037540082a66601c600200626464a666020600600226464a66602a60300042a666024600a60266ea80044c8c8c8c94ccc064c0700085858dd6980d000980d0011bae3018001301437540022c2c602c00260246ea801c54ccc040c01000454ccc04cc048dd50038b0b0b18081baa006375c602660206ea801054ccc038cdc3a4010006264a66601e600460206ea801854ccc048c044dd50030b0b0b180998081baa00416370e90001b8748008c030dd50009807980800198070011806801180680098041baa00114984d958dd7000ab9a5573aaae7955cfaba05742ae881",
+      "hash": "64e994c847001eb0c5792034547b4b9a2d173b09dc6c6b5ff3d1f78a"
+    },
+    {
+      "title": "main.ble.vote",
+      "redeemer": {
+        "title": "redeemer",
+        "schema": {
+          "$ref": "#/definitions/types~1VoteRedeemer"
+        }
+      },
+      "parameters": [
+        {
+          "title": "voting_token_asset_class",
+          "schema": {
+            "$ref": "#/definitions/types~1AssetClass"
+          }
+        },
+        {
+          "title": "drep_id",
+          "schema": {
+            "$ref": "#/definitions/cardano~1governance~1Voter"
+          }
+        },
+        {
+          "title": "lock_script_hash",
+          "schema": {
+            "$ref": "#/definitions/ScriptHash"
+          }
+        }
+      ],
+      "compiledCode": "5901db0101003232323232323222232253330063232323232325323233300e30020031323322323253330133006001132325333018301b00200416375a6032002602a6ea802854ccc04cc01c00454ccc058c054dd50050010b0a99980999b874801000454ccc058c054dd50050010b0b18099baa009132533301230053013375400226464a666028600e002264944dd6980c980b1baa00b15333014300800114a22944c050dd5005180b980a1baa0011632330010013758602e60286ea8028894ccc058004530103d87a80001332253330153375e6034602e6ea80080184cdd2a40006603200497ae013300400400130180013019001301400130143015001301037540082a66601c600200626464a666020600600226464a66602a60300042a666024600a60266ea80044c8c8c8c94ccc064c0700085858dd6980d000980d0011bae3018001301437540022c2c602c00260246ea801c54ccc040c01000454ccc04cc048dd50038b0b0b18081baa006375c602660206ea801054ccc038cdc3a4010006264a66601e600460206ea801854ccc048c044dd50030b0b0b180998081baa00416370e90001b8748008c030dd50009807980800198070011806801180680098041baa00114984d958dd7000ab9a5573aaae7955cfaba05742ae881",
+      "hash": "64e994c847001eb0c5792034547b4b9a2d173b09dc6c6b5ff3d1f78a"
+    },
+    {
+      "title": "main.ble.else",
+      "redeemer": {
+        "schema": {}
+      },
+      "parameters": [
+        {
+          "title": "voting_token_asset_class",
+          "schema": {
+            "$ref": "#/definitions/types~1AssetClass"
+          }
+        },
+        {
+          "title": "drep_id",
+          "schema": {
+            "$ref": "#/definitions/cardano~1governance~1Voter"
+          }
+        },
+        {
+          "title": "lock_script_hash",
+          "schema": {
+            "$ref": "#/definitions/ScriptHash"
+          }
+        }
+      ],
+      "compiledCode": "5901db0101003232323232323222232253330063232323232325323233300e30020031323322323253330133006001132325333018301b00200416375a6032002602a6ea802854ccc04cc01c00454ccc058c054dd50050010b0a99980999b874801000454ccc058c054dd50050010b0b18099baa009132533301230053013375400226464a666028600e002264944dd6980c980b1baa00b15333014300800114a22944c050dd5005180b980a1baa0011632330010013758602e60286ea8028894ccc058004530103d87a80001332253330153375e6034602e6ea80080184cdd2a40006603200497ae013300400400130180013019001301400130143015001301037540082a66601c600200626464a666020600600226464a66602a60300042a666024600a60266ea80044c8c8c8c94ccc064c0700085858dd6980d000980d0011bae3018001301437540022c2c602c00260246ea801c54ccc040c01000454ccc04cc048dd50038b0b0b18081baa006375c602660206ea801054ccc038cdc3a4010006264a66601e600460206ea801854ccc048c044dd50030b0b0b180998081baa00416370e90001b8748008c030dd50009807980800198070011806801180680098041baa00114984d958dd7000ab9a5573aaae7955cfaba05742ae881",
+      "hash": "64e994c847001eb0c5792034547b4b9a2d173b09dc6c6b5ff3d1f78a"
+    }
+  ],
+  "definitions": {
+    "AssetName": {
+      "title": "AssetName",
+      "dataType": "bytes"
+    },
+    "ByteArray": {
+      "title": "ByteArray",
+      "dataType": "bytes"
+    },
+    "Index": {
+      "title": "Index",
+      "dataType": "integer"
+    },
+    "Int": {
+      "dataType": "integer"
+    },
+    "PolicyId": {
+      "title": "PolicyId",
+      "dataType": "bytes"
+    },
+    "PosixTime": {
+      "title": "PosixTime",
+      "dataType": "integer"
+    },
+    "ScriptHash": {
+      "title": "ScriptHash",
+      "dataType": "bytes"
+    },
+    "TransactionId": {
+      "title": "TransactionId",
+      "dataType": "bytes"
+    },
+    "VerificationKeyHash": {
+      "title": "VerificationKeyHash",
+      "dataType": "bytes"
+    },
+    "cardano/address/Credential": {
+      "title": "Credential",
+      "description": "A general structure for representing an on-chain `Credential`.\n\n Credentials are always one of two kinds: a direct public/private key\n pair, or a script (native or Plutus).",
+      "anyOf": [
+        {
+          "title": "VerificationKey",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "$ref": "#/definitions/VerificationKeyHash"
+            }
+          ]
+        },
+        {
+          "title": "Script",
+          "dataType": "constructor",
+          "index": 1,
+          "fields": [
+            {
+              "$ref": "#/definitions/ScriptHash"
+            }
+          ]
+        }
+      ]
+    },
+    "cardano/governance/GovernanceActionId": {
+      "title": "GovernanceActionId",
+      "anyOf": [
+        {
+          "title": "GovernanceActionId",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "transaction",
+              "$ref": "#/definitions/TransactionId"
+            },
+            {
+              "title": "proposal_procedure",
+              "$ref": "#/definitions/Index"
+            }
+          ]
+        }
+      ]
+    },
+    "cardano/governance/Voter": {
+      "title": "Voter",
+      "anyOf": [
+        {
+          "title": "ConstitutionalCommitteeMember",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "$ref": "#/definitions/cardano~1address~1Credential"
+            }
+          ]
+        },
+        {
+          "title": "DelegateRepresentative",
+          "dataType": "constructor",
+          "index": 1,
+          "fields": [
+            {
+              "$ref": "#/definitions/cardano~1address~1Credential"
+            }
+          ]
+        },
+        {
+          "title": "StakePool",
+          "dataType": "constructor",
+          "index": 2,
+          "fields": [
+            {
+              "$ref": "#/definitions/VerificationKeyHash"
+            }
+          ]
+        }
+      ]
+    },
+    "cardano/transaction/OutputReference": {
+      "title": "OutputReference",
+      "description": "An `OutputReference` is a unique reference to an output on-chain. The `output_index`\n corresponds to the position in the output list of the transaction (identified by its id)\n that produced that output",
+      "anyOf": [
+        {
+          "title": "OutputReference",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "transaction_id",
+              "$ref": "#/definitions/ByteArray"
+            },
+            {
+              "title": "output_index",
+              "$ref": "#/definitions/Int"
+            }
+          ]
+        }
+      ]
+    },
+    "types/AssetClass": {
+      "title": "AssetClass",
+      "anyOf": [
+        {
+          "title": "AssetClass",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "policy",
+              "$ref": "#/definitions/PolicyId"
+            },
+            {
+              "title": "name",
+              "$ref": "#/definitions/AssetName"
+            }
+          ]
+        }
+      ]
+    },
+    "types/MiniPropDatum": {
+      "title": "MiniPropDatum",
+      "anyOf": [
+        {
+          "title": "MiniPropDatum",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "voting_state",
+              "$ref": "#/definitions/types~1VotingState"
+            },
+            {
+              "title": "voting_deadline",
+              "$ref": "#/definitions/PosixTime"
+            },
+            {
+              "title": "proposal_id",
+              "$ref": "#/definitions/cardano~1governance~1GovernanceActionId"
+            }
+          ]
+        }
+      ]
+    },
+    "types/MiniPropRedeemer": {
+      "title": "MiniPropRedeemer",
+      "anyOf": [
+        {
+          "title": "VoteFromWallet",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "voting_token_amount",
+              "$ref": "#/definitions/Int"
+            }
+          ]
+        },
+        {
+          "title": "VoteFromLock",
+          "dataType": "constructor",
+          "index": 1,
+          "fields": []
+        },
+        {
+          "title": "Execute",
+          "dataType": "constructor",
+          "index": 2,
+          "fields": []
+        }
+      ]
+    },
+    "types/MintingRedeemer": {
+      "title": "MintingRedeemer",
+      "anyOf": [
+        {
+          "title": "Mint",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "utxo_ref",
+              "$ref": "#/definitions/cardano~1transaction~1OutputReference"
+            }
+          ]
+        },
+        {
+          "title": "Burn",
+          "dataType": "constructor",
+          "index": 1,
+          "fields": []
+        }
+      ]
+    },
+    "types/VoteRedeemer": {
+      "title": "VoteRedeemer",
+      "anyOf": [
+        {
+          "title": "VoteRedeemer",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": []
+        }
+      ]
+    },
+    "types/VotingState": {
+      "title": "VotingState",
+      "anyOf": [
+        {
+          "title": "VotingState",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "yes",
+              "$ref": "#/definitions/Int"
+            },
+            {
+              "title": "no",
+              "$ref": "#/definitions/Int"
+            },
+            {
+              "title": "abstain",
+              "$ref": "#/definitions/Int"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
