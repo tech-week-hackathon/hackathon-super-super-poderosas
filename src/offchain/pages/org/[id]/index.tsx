@@ -47,7 +47,7 @@ export default function Org() {
           action: action.tx_hash,
           type: action.governance_type,
           index: action.cert_index,
-        })),
+        }))
       );
     } catch (error) {
       console.error(error);
@@ -64,6 +64,7 @@ export default function Org() {
       txId: action.action,
       index: action.index,
     });
+    lucidState.selectWalletFromSeed("CAMBIA ACA");
     const signedTx = await tx.sign().complete();
     const txHash = await signedTx.submit();
     console.log(txHash);
@@ -88,11 +89,11 @@ export default function Org() {
       <Flex>
         <Heading size={"5xl"}>{id ?? ""}</Heading>
         <Modal2
-          title={`Select a new action to add to ${id}`}
+          title={`Select a proposal to add: `}
           error=""
           start={
             <Button variant="outline" onClick={getBlockfrostActions}>
-              Add Action
+              Create Mini Proposal
             </Button>
           }
         >
@@ -103,8 +104,9 @@ export default function Org() {
                   <Card.Root key={index}>
                     <Card.Header gap={{ base: "2", md: "5" }}>
                       <Card.Title mt="2" mx="auto">
-                        {action.type}
+                        Type: {action.type}
                         <br />
+                        Hash:
                         <Link
                           href={
                             "https://preprod.cexplorer.io/tx/" +

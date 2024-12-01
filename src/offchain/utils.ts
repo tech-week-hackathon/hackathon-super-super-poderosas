@@ -41,7 +41,7 @@ export async function getScriptUtxo(
       const d = u.datum;
       const datum: MinPropDatum = Data.from(d, MinPropDatum);
       if (
-        datum.GovernanceActionId.txId === govActionId.txId &&
+        datum.GovernanceActionId.txId.hash === govActionId.txId &&
         datum.GovernanceActionId.index == BigInt(govActionId.index)
       )
         return u;
@@ -58,7 +58,7 @@ const MinPropDatumSchema = Data.Object({
   }),
   deadline: Data.Integer(),
   GovernanceActionId: Data.Object({
-    txId: Data.Bytes(),
+    txId: Data.Object({ hash: Data.Bytes() }),
     index: Data.Integer(),
   }),
 });
