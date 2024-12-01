@@ -26,9 +26,7 @@ export type ConnectOptions = {
 
 const options: ConnectOptions = {
   testnetNetwork: "Preprod",
-  apiKey:
-    process.env.NEXT_PUBLIC_BLOCKFROST_PROJECT_ID ||
-    "preprodKwwErGQi5UWRmgLnJcK1UBb6K5I4nrFz",
+  apiKey: process.env.NEXT_PUBLIC_BLOCKFROST_PROJECT_ID as string,
 };
 
 function App({ Component, pageProps }: AppProps) {
