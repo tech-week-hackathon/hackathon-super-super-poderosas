@@ -1,3 +1,4 @@
+import { useLucidProvider } from "@/context";
 import { ConnectOptions } from "@/pages/_app";
 import FileSVG from "@/public/ssp.svg";
 import { Box, Flex, Separator } from "@chakra-ui/react";

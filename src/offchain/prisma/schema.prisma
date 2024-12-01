@@ -11,8 +11,7 @@ datasource db {
 }
 
 model User {
-  userId        Int      @id @default(autoincrement())
-  address       String   @unique
+  address       String   @id @unique
   miniGov       MiniGov? @relation(fields: [userMiniGovId], references: [name])
   userMiniGovId String?
   votes         Vote[]
@@ -27,8 +26,9 @@ model MiniGov {
 
 model Action {
   actionId  Int      @id @default(autoincrement())
-  title     String
+  title     String   @default("")
   txHash    String   @unique
+  index     Int
   type_name String
   startTime DateTime
   votes     Vote[]

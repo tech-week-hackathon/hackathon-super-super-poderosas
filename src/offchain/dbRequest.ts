@@ -24,11 +24,19 @@ export const createUser = async (addr: string) => {
   makeRequest(`/api/createUser`, { addr });
 };
 
+export const createAction = async (
+  hash: string,
+  index: number,
+  type: string
+) => {
+  makeRequest(`/api/createAction`, { hash, index, type });
+};
+
 export const createMiniGov = async (
   address: string,
   name: string,
   token: string,
-  expirationDate: number,
+  expirationDate: number
 ) => {
   const response = await makeRequest(`/api/createMiniGov`, {
     address,

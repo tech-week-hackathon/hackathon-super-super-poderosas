@@ -5,13 +5,13 @@ import { getAndCreateAction } from "../controllers";
 // Required fields in body: name, title, txHash
 export default async function handle(
   req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse
 ) {
   try {
     const action = await getAndCreateAction(
-      req.body.name,
-      req.body.title,
-      req.body.txHash,
+      req.body.hash,
+      req.body.index,
+      req.body.type
     );
     res.json({
       action: JSON.stringify(action),

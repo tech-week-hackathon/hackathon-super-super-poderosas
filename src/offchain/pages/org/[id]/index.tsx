@@ -1,13 +1,15 @@
 import { Action } from "@/components/Action";
-import { Gob } from "@/components/MiniGobsTable";
 import { Modal2 } from "@/components/Modal2";
+import { useLucidProvider } from "@/context";
+import { createMiniProp } from "@/createMiniProp";
+import { createAction } from "@/dbRequest";
 import { Box, Button, Card, Flex, Grid, Heading } from "@chakra-ui/react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-const gob: Gob = {
+const gob = {
   name: "a",
   members: [{ name: "asd", ada: 12 }],
   ada: 123,
@@ -19,14 +21,19 @@ interface BlockfrostRes {
   governance_type: string;
 }
 
+interface IAction {
+  action: string;
+  type: string;
+  index: number;
+}
+
 export default function Org() {
   const router = useRouter();
   // TODO: get org info
   const { id } = router.query;
-  const [bActions, setBActions] = useState<{ action: string; type: string }[]>(
-    []
-  );
+  const [bActions, setBActions] = useState<IAction[]>([]);
   const [actions, setActions] = useState([]);
+  const { lucidState } = useLucidProvider();
 
   const getBlockfrostActions = async () => {
     const url =
@@ -45,12 +52,24 @@ export default function Org() {
         data.map((action: BlockfrostRes) => ({
           action: action.tx_hash,
           type: action.governance_type,
+          index: action.cert_index,
         }))
       );
     } catch (error) {
       console.error(error);
     }
     // TODO: get org action name and setActions
+  };
+
+  const submitTxAndCreateAction = (action: IAction) => async () => {
+    const tx = await createMiniProp(lucidState, {
+      txId: action.action,
+      index: action.index,
+    });
+    const signedTx = await tx.sign().complete();
+    const txHash = await signedTx.submit();
+    console.log(txHash);
+    createAction(action.action, action.index, action.type);
   };
 
   return (
@@ -108,7 +127,10 @@ export default function Org() {
                         gap="3"
                         wrap="wrap"
                       >
-                        <Button variant="outline" onClick={() => {}}>
+                        <Button
+                          variant="outline"
+                          onClick={submitTxAndCreateAction(action)}
+                        >
                           Add
                         </Button>
                       </Flex>

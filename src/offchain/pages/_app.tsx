@@ -13,9 +13,8 @@ import { MeshProvider } from "@meshsdk/react";
 import type { AppProps } from "next/app";
 import { useState } from "react";
 
-import { LucidProvider } from "@/context";
+import { LucidProvider, useLucidProvider } from "@/context";
 import { createMiniGov } from "@/dbRequest";
-import { Lucid } from "lucid-txpipe";
 import { useRouter } from "next/router";
 import { Account } from "../components/ConnectWallet";
 
@@ -33,7 +32,7 @@ const options: ConnectOptions = {
 
 function App({ Component, pageProps }: AppProps) {
   const [isConnected, setIsConnected] = useState(false);
-  const [lucidState, setLucidState] = useState<Lucid>();
+  const { lucidState } = useLucidProvider();
   const [account, setAccountState] = useState<Account>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
