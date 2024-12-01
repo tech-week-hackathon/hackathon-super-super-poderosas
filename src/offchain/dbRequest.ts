@@ -40,8 +40,10 @@ export const createMiniGov = async (
   return miniGov;
 };
 
-export const getAllMiniGov = async () => {
-  const response = await makeRequest(`/api/getAllMiniGov`, {});
+export const getAllMiniGovs = async () => {
+  console.log("getAllMiniGov");
+  const response = await makeRequest(`/api/getAllMiniGovs`, []);
+  console.log("response", response);
   const miniGov = JSON.parse(response.miniGovs);
   return miniGov;
 };

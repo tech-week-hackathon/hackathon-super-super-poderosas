@@ -6,5 +6,6 @@ export type User = {};
 
 export type miniGovsInfo = {
   name: string;
+  token: string;
   users_amount: number;
 };

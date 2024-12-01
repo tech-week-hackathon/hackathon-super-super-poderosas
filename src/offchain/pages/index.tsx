@@ -1,77 +1,30 @@
-import { Gob, MiniGobsTable } from "@/components/MiniGobsTable";
+import { MiniGobsTable } from "@/components/MiniGobsTable";
+import { getAllMiniGovs } from "@/dbRequest";
+import { miniGovsInfo } from "@/utils/types";
 import { Box, Heading } from "@chakra-ui/react";
-// import "@meshsdk/react/styles.css";
 import Head from "next/head";
+import { useState, useEffect } from "react";
 
-const miniGovs: Gob[] = [
-  {
-    name: "a",
-    members: [{ name: "asd", ada: 12 }],
-    ada: 123,
-  },
-  {
-    name: "b",
-    members: [{ name: "asd", ada: 12123 }],
-    ada: 7890,
-  },
-  {
-    name: "c",
-    members: [{ name: "asd", ada: 102 }],
-    ada: 321,
-  },
-  {
-    name: "c",
-    members: [{ name: "asd", ada: 102 }],
-    ada: 321,
-  },
-  {
-    name: "b",
-    members: [{ name: "asd", ada: 12123 }],
-    ada: 7890,
-  },
-  {
-    name: "b",
-    members: [{ name: "asd", ada: 12123 }],
-    ada: 7890,
-  },
-  {
-    name: "b",
-    members: [{ name: "asd", ada: 12123 }],
-    ada: 7890,
-  },
-  {
-    name: "b",
-    members: [{ name: "asd", ada: 12123 }],
-    ada: 7890,
-  },
-  {
-    name: "c",
-    members: [{ name: "asd", ada: 102 }],
-    ada: 321,
-  },
-  {
-    name: "c",
-    members: [{ name: "asd", ada: 102 }],
-    ada: 321,
-  },
-  {
-    name: "c",
-    members: [{ name: "asd", ada: 102 }],
-    ada: 321,
-  },
-  {
-    name: "c",
-    members: [{ name: "asd", ada: 102 }],
-    ada: 321,
-  },
-  {
-    name: "c",
-    members: [{ name: "asd", ada: 102 }],
-    ada: 321,
-  },
-];
+const Home = () => {
+  const [mini, setMini] = useState<miniGovsInfo[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export default function Home() {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getAllMiniGovs();
+        setMini(data);
+      } catch (err) {
+        console.error("Error fetching MiniGovs:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+
   return (
     <Box
       display="flex"
@@ -89,7 +42,9 @@ export default function Home() {
       <Heading size="4xl" p="4">
         Organizations to Join!
       </Heading>
-      <MiniGobsTable miniGobs={miniGovs} />
+      <MiniGobsTable miniGobs={mini} />
     </Box>
   );
-}
+};
+
+export default Home;

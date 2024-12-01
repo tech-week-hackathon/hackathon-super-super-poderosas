@@ -65,11 +65,13 @@ export const getAllMiniGovs = async (): Promise<miniGovsInfo[]> => {
       _count: {
         select: { members: true },
       },
+      token: true,
     },
   });
 
   return miniGovs.map((miniGov) => ({
     name: miniGov.name,
+    token: miniGov.token,
     users_amount: miniGov._count.members,
   }));
 };
