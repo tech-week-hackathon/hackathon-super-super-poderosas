@@ -34,6 +34,7 @@ const Home = () => {
       minHeight="100vh"
       gap={5}
       py={5}
+      bg="gray.800"
       fontFamily="var(--font-geist-sans)"
     >
       <Head>

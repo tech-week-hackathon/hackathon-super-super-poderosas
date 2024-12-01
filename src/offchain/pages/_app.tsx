@@ -5,17 +5,17 @@ import {
   Button,
   ChakraProvider,
   defaultSystem,
+  Flex,
   Input,
   Theme,
-  Flex,
 } from "@chakra-ui/react";
 import { MeshProvider } from "@meshsdk/react";
 import type { AppProps } from "next/app";
 import { useState } from "react";
 
+import { createMiniGov } from "@/dbRequest";
 import { Lucid } from "lucid-txpipe";
 import { Account } from "../components/ConnectWallet";
-import { createMiniGov } from "@/dbRequest";
 
 type Networks = "Mainnet" | "Preprod" | "Preview";
 

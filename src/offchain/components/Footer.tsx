@@ -1,8 +1,9 @@
 import { Box, Flex, Link, Stack, Text } from "@chakra-ui/react";
+import Image from "next/image";
 
 export const Footer = () => {
   return (
-    <Box bg="gray.800" color="white" py={6}>
+    <Box bg="black" color="white" py={6}>
       <Flex
         direction={{ base: "column", md: "row" }}
         justify="space-between"
@@ -25,6 +26,7 @@ export const Footer = () => {
             rel="noopener noreferrer"
             _hover={{ color: "teal.300" }}
           >
+            <Image src="/github.png" alt="Github" width={20} height={20} />
             Repo
           </Link>
         </Stack>

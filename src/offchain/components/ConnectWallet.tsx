@@ -48,6 +48,9 @@ export const ConnectWallet = ({
       setLoading(true);
       const walletInitialAPI = getWalletInitialAPI(window, walletName);
       const walletInjectedFromBrowser = await walletInitialAPI.enable();
+      if (!walletInjectedFromBrowser) {
+        throw new Error("No wallet injected from browser");
+      }
       lucid.selectWallet(walletInjectedFromBrowser);
 
       setLucid(lucid);
@@ -92,16 +95,13 @@ export const ConnectWallet = ({
           {loading ? (
             <Spinner size="sm" color={"pink"} />
           ) : selectedWallet ? (
-            <Flex alignItems="center">
+            <Flex alignItems="center" gap={3}>
               <Image
-                // TODO: NO FUNCIONA
                 src={
-                  selectedWallet == "eternl"
-                    ? "/eternl-logo.png"
-                    : "/nami-logo.png"
+                  selectedWallet == "eternl" ? "/eternl.jpg" : "/nami-logo.svg"
                 }
-                width={20}
-                height={20}
+                width={30}
+                height={30}
                 alt={selectedWallet == "eternl" ? "E" : "N"}
               />
               {buttonText}
