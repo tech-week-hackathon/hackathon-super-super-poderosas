@@ -9,11 +9,12 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 
-import { Address, Blockfrost, Lucid, WalletApi } from "lucid-txpipe";
+import { Address, Blockfrost, Lucid, Maestro, MaestroConfig, WalletApi } from "lucid-txpipe";
 import React, { useEffect, useState } from "react";
 // import { createUser, updateDB } from "../dbRequests";
 import Image from "next/image";
 import { ConnectOptions } from "../pages/_app";
+import { BlockList } from "net";
 
 export type Account = { address?: string; rewardAddress?: string };
 

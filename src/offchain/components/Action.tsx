@@ -1,8 +1,9 @@
+import { voteMiniProp } from "@/contract/operations";
 import AbstainIcon from "@/public/abstain.svg";
 import NoIcon from "@/public/no.svg";
 import YesIcon from "@/public/yes.svg";
 import { Button, Card, Flex, Heading, Separator } from "@chakra-ui/react";
-import { Lucid } from "lucid-txpipe";
+import { Lucid, TxComplete } from "lucid-txpipe";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -11,11 +12,26 @@ export const Action = ({ lucid, action }: { lucid: Lucid | undefined, action: st
   const [no, setNo] = useState(0);
   const [abstain, setAbstain] = useState(0);
   const [voted, setVoted] = useState(false);
+  const [unsigned, setUnsigned] = useState<TxComplete | undefined>();
 
-  const vote = (choice: string) => {
+  const vote = (choice: string, txHash: string, index: number) => {
     if (lucid) {
       console.log("Voting ", choice)
-      // agregar call a al función
+      voteMiniProp(
+        choice,
+        {
+          txId: txHash,
+          index: index
+        },
+        lucid
+      ).then((unsignedTx) => {
+        console.log()
+        unsignedTx.sign().complete().then(
+          (signed) => {
+            signed.submit()
+          }
+        )
+      })
     }
   };
 
@@ -63,6 +79,7 @@ export const Action = ({ lucid, action }: { lucid: Lucid | undefined, action: st
             onClick={() => {
               if (!voted) setYes((prev) => prev + 1);
               setVoted(true);
+              vote("yes", "372d688faa77e146798b581b322c0f2981a9023764736ade5d12e0e4e796af8c", 0);
             }}
           >
             <Image src={YesIcon} alt="Yes" />
@@ -74,6 +91,8 @@ export const Action = ({ lucid, action }: { lucid: Lucid | undefined, action: st
             onClick={() => {
               if (!voted) setNo((prev) => prev + 1);
               setVoted(true);
+
+              vote("no", "372d688faa77e146798b581b322c0f2981a9023764736ade5d12e0e4e796af8c", 0);
             }}
           >
             <Image src={NoIcon} alt="No" />
@@ -85,6 +104,8 @@ export const Action = ({ lucid, action }: { lucid: Lucid | undefined, action: st
             onClick={() => {
               if (!voted) setAbstain((prev) => prev + 1);
               setVoted(true);
+
+              vote("abstain", "372d688faa77e146798b581b322c0f2981a9023764736ade5d12e0e4e796af8c", 0);
             }}
           >
             <Image src={AbstainIcon} alt="Abstain" />

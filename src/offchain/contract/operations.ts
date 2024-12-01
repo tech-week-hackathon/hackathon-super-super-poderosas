@@ -1,6 +1,6 @@
-import { Assets, Constr, Data, fromText, Lucid, SpendingValidator, toUnit } from "lucid-txpipe";
-import { MIN_ADA, script } from "./utils/constants";
-import { GovernanceActionId, MinPropDatum } from "./utils/types";
+import { Assets, Constr, Data, fromText, Lucid, SpendingValidator, toUnit, TxComplete } from "lucid-txpipe";
+import { MIN_ADA, script, VotingTokenUnit } from "./utils/constants";
+import { GovernanceActionId, MakeRedeemerVote, MinPropDatum, WrapRedeemer } from "./utils/types";
 import { getScriptDetails, getScriptUtxo } from "./utils/helpers";
 
 async function createMiniProp(lucid: Lucid, govAction: GovernanceActionId) {
@@ -17,8 +17,8 @@ async function createMiniProp(lucid: Lucid, govAction: GovernanceActionId) {
             abstain: BigInt(0)
         },
         deadline: BigInt(deadline),
-        GovernanceActionId: {
-            txId: govAction.txId,
+        governanceActionId: {
+            txId: { field: govAction.txId},
             index: BigInt(govAction.index)
         }
     };
@@ -34,10 +34,55 @@ async function createMiniProp(lucid: Lucid, govAction: GovernanceActionId) {
     return txComplete
 }
 
-// async function VoteMiniProp(choice: string, govActionId: GovernanceActionId, lucid: Lucid) {
-//     const script = getScriptDetails(lucid);
-//     const scriptUtxo = getScriptUtxo(lucid, govActionId, script);
+async function voteMiniProp(choice: string, govActionId: GovernanceActionId, lucid: Lucid): Promise<TxComplete> {
+    const script = getScriptDetails(lucid);
+    // const scriptUtxo = await getScriptUtxo(lucid, govActionId, script);
 
-// }
+    const utxo = await lucid.utxosByOutRef([{
+        txHash: "045528f627afe6fb3644bca0a06a669dd7bb782b649306e69a2bfd481396073c",
+        outputIndex: 0
+    }])
+    console.log("daledale", utxo[0].datum)
+    const parsedDatum = Data.from<MinPropDatum>(utxo[0].datum!, MinPropDatum);
+    const ownAddr = await lucid.wallet.address()
+    const pkh = lucid.utils.getAddressDetails(ownAddr).paymentCredential!.hash;
 
-export { createMiniProp }
+    const ownUtxos = await lucid.wallet.getUtxos();
+
+    let votes = BigInt(0);
+
+    const utxosWithAsset = ownUtxos.filter((u) => {
+        let vt = u.assets[VotingTokenUnit]
+        if (vt > 0) {
+            votes += vt;
+            return true
+        }
+    })
+
+    if (votes !== BigInt(0)) {
+            const voteRdm: WrapRedeemer = MakeRedeemerVote(choice, votes);
+
+            let dtm;
+
+            if (choice === "yes") dtm = {...parsedDatum, votingState: { ...parsedDatum.votingState, yes: parsedDatum.votingState.yes + BigInt(1) }}
+            else if (choice === "no") dtm = {...parsedDatum, votingState: { ...parsedDatum.votingState, no: parsedDatum.votingState.no + BigInt(1) }}
+            else if (choice === "abstain") dtm = {...parsedDatum, votingState: { ...parsedDatum.votingState, abstain: parsedDatum.votingState.abstain + BigInt(1) }}
+
+            const datum = Data.to<MinPropDatum>(dtm!, MinPropDatum)
+
+            const tx = lucid.newTx()
+                .addSignerKey(pkh)
+                .attachSpendingValidator(script.script)
+                .collectFrom(utxosWithAsset)
+                .collectFrom([utxo[0]], Data.to(new Constr(1, [Data.void()])))
+                .payToContract(script.address, { inline: datum }, utxo[0].assets!)
+                .payToAddress(ownAddr, {[VotingTokenUnit]: votes})
+                .complete()
+
+            return tx;
+    } else {
+        return Promise.reject()
+    }
+}
+
+export { createMiniProp , voteMiniProp}

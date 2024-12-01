@@ -1,9 +1,17 @@
-import { Assets, Data, fromText, Lucid, SpendingValidator, toUnit } from "lucid-txpipe"
+import { Address, Assets, Data, fromText, Lucid, SpendingValidator, toUnit } from "lucid-txpipe"
 import { script } from "./constants"
 import { GovernanceActionId, MinPropDatum } from "./types";
 
 
-export function getScriptDetails(lucid: Lucid) {
+type ScriptDetails = {
+    script: SpendingValidator,
+    address: Address,
+    policyId: string,
+    assetName: string,
+    controlToken: Assets,
+}
+
+export function getScriptDetails(lucid: Lucid): ScriptDetails {
     const scriptAddress = lucid.utils.validatorToAddress(script);
     const policyId = lucid.utils.validatorToScriptHash(script);
     const assetNameHex = fromText("ControlToken");
@@ -20,16 +28,19 @@ export function getScriptDetails(lucid: Lucid) {
     }
 }
 
-export async function getScriptUtxo(lucid: Lucid, govActionId: GovernanceActionId, script:any,) {
-    const scriptUtxos = await lucid.utxosAt(script.address);
+export async function getScriptUtxo(lucid: Lucid, govActionId: GovernanceActionId, script: ScriptDetails) {
+    const scriptUtxos = await lucid.utxosAt("addr_test1wpunlryvl7aqsxe22erzlsseej87v5kk5vutvtrmzdy8dect48z0w");
     for (const u of scriptUtxos) {
         if (u.datum) {
+            console.log(u)
             const d = u.datum
             const datum: MinPropDatum = Data.from(d, MinPropDatum);
-            if (datum.GovernanceActionId.txId === govActionId.txId &&
-                datum.GovernanceActionId.index == BigInt(govActionId.index)
-            ) return u
+            if (datum.governanceActionId.txId.field === govActionId.txId &&
+                datum.governanceActionId.index == BigInt(govActionId.index)
+            ) {
+                return u
+            }
         }
     }
-    console.log("script utxo not found");
+    
 }
