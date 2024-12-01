@@ -27,16 +27,7 @@ export const MiniGobCard = ({ miniGob }: { miniGob: miniGovsInfo }) => {
             onClickFn={() => {
               router.push(`/org/${miniGob.name}`);
             }}
-            start={
-              <Button
-                size="sm"
-                onClick={() => {
-                  router.push(`/org/${miniGob.name}`);
-                }}
-              >
-                Join
-              </Button>
-            }
+            start={<Button size="sm">Join</Button>}
             error=""
           >
             <p>
