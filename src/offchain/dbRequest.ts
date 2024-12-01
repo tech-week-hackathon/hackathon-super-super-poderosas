@@ -21,7 +21,8 @@ export const makeRequest = async (url: string, body: any) => {
 };
 
 export const createUser = async (addr: string) => {
-  makeRequest(`/api/createUser`, { addr });
+  const response = await makeRequest(`/api/createUser`, { addr });
+  return { name: response.name, message: response.message };
 };
 
 export const createAction = async (
@@ -49,9 +50,7 @@ export const createMiniGov = async (
 };
 
 export const getAllMiniGovs = async () => {
-  console.log("getAllMiniGov");
   const response = await makeRequest(`/api/getAllMiniGovs`, []);
-  console.log("response", response);
   const miniGov = JSON.parse(response.miniGovs);
   return miniGov;
 };

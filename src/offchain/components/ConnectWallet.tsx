@@ -14,6 +14,7 @@ import { Address, Blockfrost, Lucid, WalletApi } from "lucid-txpipe";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { ConnectOptions } from "../pages/_app";
+import router from "next/router";
 
 export type Account = { address?: string; rewardAddress?: string };
 
@@ -39,7 +40,7 @@ export const ConnectWallet = ({
 
   const provider = new Blockfrost(
     "https://cardano-preprod.blockfrost.io/api/v0",
-    options.apiKey
+    options.apiKey,
   );
 
   const handleConnectClick = async (walletName: string) => {
@@ -73,19 +74,26 @@ export const ConnectWallet = ({
   };
 
   useEffect(() => {
-    if (address) {
-      // updateDB("");
-      createUser(address);
-      const shortenedAddress = `${address.slice(0, 6)}...${address.slice(-4)}`;
-      setButtonText(shortenedAddress);
-    }
-    if (lucid) {
-      setLucidState(lucid);
-      setAccountState({
-        address: address!,
-      });
-      setIsConnected(!!address);
-    }
+    (async () => {
+      if (address) {
+        // updateDB("");
+        const { name, message } = await createUser(address);
+        if (message.includes("Already exists")) {
+          router.push(`/org/${name}`);
+        }
+        const shortenedAddress = `${address.slice(0, 6)}...${address.slice(
+          -4,
+        )}`;
+        setButtonText(shortenedAddress);
+      }
+      if (lucid) {
+        setLucidState(lucid);
+        setAccountState({
+          address: address!,
+        });
+        setIsConnected(!!address);
+      }
+    })();
   }, [address, lucid]);
 
   return (
@@ -139,7 +147,7 @@ export const ConnectWallet = ({
 
 function getWalletInitialAPI(
   window: (Window & typeof globalThis) | null | undefined,
-  walletName: string
+  walletName: string,
 ) {
   let _a;
   const walletInitialAPI =

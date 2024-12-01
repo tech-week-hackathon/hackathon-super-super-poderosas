@@ -9,12 +9,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-const gob = {
-  name: "a",
-  members: [{ name: "asd", ada: 12 }],
-  ada: 123,
-};
-
 interface BlockfrostRes {
   tx_hash: string;
   cert_index: number;
@@ -53,7 +47,7 @@ export default function Org() {
           action: action.tx_hash,
           type: action.governance_type,
           index: action.cert_index,
-        }))
+        })),
       );
     } catch (error) {
       console.error(error);
@@ -62,6 +56,10 @@ export default function Org() {
   };
 
   const submitTxAndCreateAction = (action: IAction) => async () => {
+    if (!lucidState) {
+      console.error("Lucid state is not defined");
+      return;
+    }
     const tx = await createMiniProp(lucidState, {
       txId: action.action,
       index: action.index,
@@ -88,7 +86,7 @@ export default function Org() {
         <title>Organization-{id}</title>
       </Head>
       <Flex>
-        <Heading size={"5xl"}>{gob.name.toUpperCase()}</Heading>
+        <Heading size={"5xl"}>{id ?? ""}</Heading>
         <Modal2
           title={`Select a new action to add to ${id}`}
           error=""

@@ -5,7 +5,6 @@ import { Box, Flex, Separator } from "@chakra-ui/react";
 import Image from "next/image";
 import { Dispatch, ReactElement, SetStateAction } from "react";
 import { Account, ConnectWallet } from "./ConnectWallet";
-import { useLucidProvider } from "@/context";
 
 export const Header = ({
   provider,

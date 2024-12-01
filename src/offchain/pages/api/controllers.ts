@@ -2,7 +2,13 @@ import prisma from "@/prisma/prisma";
 import { miniGovsInfo } from "@/utils/types";
 import { Action, MiniGov, User, Vote } from "@prisma/client";
 
-export const getOrCreateUser = async (address: string): Promise<User> => {
+export const getOrCreateUser = async (
+  address: string,
+): Promise<{
+  user: User;
+  message: string;
+  name?: string;
+}> => {
   const user = await prisma.user.findUnique({
     where: { address: address },
   });
@@ -12,9 +18,13 @@ export const getOrCreateUser = async (address: string): Promise<User> => {
         address: address,
       },
     });
-    return result;
+    return Promise.resolve({ user: result, message: "Create User Ok" });
   } else {
-    return user;
+    return Promise.resolve({
+      user: user,
+      message: "Already exists",
+      name: user.userMiniGovId ?? undefined,
+    });
   }
 };
 
