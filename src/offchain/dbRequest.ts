@@ -48,6 +48,10 @@ export const getAllMiniGovs = async () => {
   return miniGov;
 };
 
+export const joinMiniGov = async (address: string, name: string) => {
+  makeRequest(`/api/joinMiniGov`, { address, name });
+};
+
 export const updateDB = async (addr: string) => {
   makeRequest(`/api/updateDB`, addr);
 };

@@ -1,24 +1,23 @@
 import { ConnectOptions } from "@/pages/_app";
 import FileSVG from "@/public/ssp.svg";
 import { Box, Flex, Separator } from "@chakra-ui/react";
-import { Lucid } from "lucid-txpipe";
 import Image from "next/image";
 import { Dispatch, ReactElement, SetStateAction } from "react";
 import { Account, ConnectWallet } from "./ConnectWallet";
+import { useLucidProvider } from "@/context";
 
 export const Header = ({
   provider,
   extra,
   setIsConnected,
-  setLucidState,
   setAccountState,
 }: {
   provider: ConnectOptions;
   extra: ReactElement;
   setIsConnected: Dispatch<SetStateAction<boolean>>;
-  setLucidState: Dispatch<SetStateAction<Lucid | undefined>>;
   setAccountState: Dispatch<SetStateAction<Account | undefined>>;
 }) => {
+  const { setLucidState } = useLucidProvider();
   return (
     <Box
       as="header"
@@ -43,8 +42,7 @@ export const Header = ({
         <Image src={FileSVG} alt="<3" width={50} />
         S.S.P
       </Flex>
-      <Flex gap="5" align={"center"}>
-        <Separator orientation="vertical" height="10" size="lg" />
+      <Flex gap="6" align={"center"}>
         {provider.testnetNetwork && provider.apiKey ? (
           <ConnectWallet
             setIsConnected={setIsConnected}
@@ -55,6 +53,7 @@ export const Header = ({
         ) : (
           "Missing provider"
         )}
+        <Separator orientation="vertical" height="10" size="lg" />
         {extra}
       </Flex>
     </Box>

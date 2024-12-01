@@ -71,7 +71,6 @@ function App({ Component, pageProps }: AppProps) {
               provider={options}
               setAccountState={setAccountState}
               setIsConnected={setIsConnected}
-              setLucidState={setLucidState}
               extra={
                 <Modal
                   title="Create your Organization"

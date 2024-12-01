@@ -2,9 +2,12 @@ import { Button, Card } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Modal } from "./Modal";
 import { miniGovsInfo } from "@/utils/types";
+import { joinMiniGov } from "@/dbRequest";
+import { useLucidProvider } from "@/context";
 
 export const MiniGobCard = ({ miniGob }: { miniGob: miniGovsInfo }) => {
   const router = useRouter();
+  const { lucidState } = useLucidProvider();
   return (
     <Card.Root>
       <Card.Body display="flex" flexDirection="column" gap="2">
@@ -12,7 +15,7 @@ export const MiniGobCard = ({ miniGob }: { miniGob: miniGovsInfo }) => {
         <Card.Description>
           Members amount: {miniGob.users_amount}
           <br />
-          Token: {miniGob.token}
+          Token: {miniGob.token.slice(56)}
         </Card.Description>
         <div
           style={{
@@ -24,8 +27,15 @@ export const MiniGobCard = ({ miniGob }: { miniGob: miniGovsInfo }) => {
           <Modal
             title="Are you sure?"
             confirmText="Sure"
-            onClickFn={() => {
-              router.push(`/org/${miniGob.name}`);
+            onClickFn={async () => {
+              const address = await lucidState?.wallet.address();
+              if (address) {
+                await joinMiniGov(address, miniGob.name);
+                router.push(`/org/${miniGob.name}`);
+              } else {
+                console.error("Wallet address is undefined");
+                alert("Wallet address is undefined");
+              }
             }}
             start={<Button size="sm">Join</Button>}
             error=""

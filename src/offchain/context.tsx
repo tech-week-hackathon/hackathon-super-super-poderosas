@@ -4,8 +4,8 @@ import type { Dispatch, SetStateAction } from "react";
 import { createContext, useContext, useState } from "react";
 
 interface ILucidContext {
-  lucidState: Lucid;
-  setLucidState: Dispatch<SetStateAction<Lucid>>;
+  lucidState: Lucid | undefined;
+  setLucidState: Dispatch<SetStateAction<Lucid | undefined>>;
 }
 
 const LucidContext = createContext<ILucidContext>({
@@ -21,7 +21,7 @@ export const useLucidProvider = () => {
 };
 
 export const LucidProvider = ({ children }: { children: React.ReactNode }) => {
-  const [lucidState, setLucidState] = useState<Lucid>(new Lucid());
+  const [lucidState, setLucidState] = useState<Lucid | undefined>(new Lucid());
 
   return (
     <LucidContext.Provider value={{ lucidState, setLucidState }}>

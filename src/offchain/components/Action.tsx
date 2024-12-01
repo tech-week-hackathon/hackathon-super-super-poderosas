@@ -1,7 +1,7 @@
 import AbstainIcon from "@/public/abstain.svg";
 import NoIcon from "@/public/no.svg";
 import YesIcon from "@/public/yes.svg";
-import { Button, Card, Flex, Heading, Separator } from "@chakra-ui/react";
+import { Button, Card, Flex, Heading } from "@chakra-ui/react";
 import Image from "next/image";
 import { useState } from "react";
 export const Action = ({ action }: { action: string }) => {
@@ -35,8 +35,6 @@ export const Action = ({ action }: { action: string }) => {
             <span>&nbsp;{abstain}</span>
           </Flex>
         </Flex>
-
-        <Separator width="full" my={3} />
 
         <Heading size="md" mb={3} textAlign={{ base: "center", md: "left" }}>
           Vote!

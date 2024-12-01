@@ -58,6 +58,41 @@ export const getOrCreateMiniGov = async (
   }
 };
 
+export const joinMiniGov = async (
+  address: string,
+  miniGovName: string,
+): Promise<void> => {
+  const user = await prisma.user.findUnique({
+    where: { address: address },
+  });
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const miniGov = await prisma.miniGov.findUnique({
+    where: { name: miniGovName },
+  });
+  if (!miniGov) {
+    throw new Error("MiniGov not found");
+  }
+
+  await prisma.user.update({
+    where: { address: address },
+    data: {
+      userMiniGovId: miniGovName,
+    },
+  });
+
+  await prisma.miniGov.update({
+    where: { name: miniGovName },
+    data: {
+      members: {
+        connect: { address: address },
+      },
+    },
+  });
+};
+
 export const getAllMiniGovs = async (): Promise<miniGovsInfo[]> => {
   const miniGovs = await prisma.miniGov.findMany({
     select: {

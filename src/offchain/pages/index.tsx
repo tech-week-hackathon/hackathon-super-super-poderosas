@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 const Home = () => {
   const [mini, setMini] = useState<miniGovsInfo[]>([]);
   const [loading, setLoading] = useState(true);
-  const { lucid } = useLucidProvider();
 
   useEffect(() => {
     const fetchData = async () => {
