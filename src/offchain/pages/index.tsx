@@ -12,7 +12,7 @@ const geistMono = localFont({
   weight: "50 900",
 });
 
-const miniGobs = [
+const miniGovs = [
   {
     name: "a",
     members: 12,
@@ -87,14 +87,14 @@ export default function Home() {
     >
       <Heading size="4xl">Mini Govs to Join!</Heading>
       <Grid templateColumns="repeat(4, 1fr)" gap="6">
-        {miniGobs.map((miniGob) => (
+        {miniGovs.map((miniGov) => (
           <Card.Root>
             <Card.Body gap="2">
-              <Card.Title mt="2">{miniGob.name}</Card.Title>
+              <Card.Title mt="2">{miniGov.name}</Card.Title>
               <Card.Description>
-                Members amount: {miniGob.members}
+                Members amount: {miniGov.members}
                 <br />
-                ADA amount: {miniGob.ada}
+                ADA amount: {miniGov.ada}
               </Card.Description>
             </Card.Body>
             <Card.Footer justifyContent="flex-end">

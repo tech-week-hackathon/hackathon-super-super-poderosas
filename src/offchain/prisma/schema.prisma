@@ -11,27 +11,36 @@ datasource db {
 }
 
 model User {
-  id             Int      @id @default(autoincrement())
-  address        String   @unique
-  minigob        MiniGob? @relation(fields: [minigobId], references: [id])
-  minigobId      Int?
-  actionId       Int?
-  action_yes     Action?  @relation("VoteYes", fields: [actionId], references: [id])
-  action_no      Action?  @relation("VoteNo", fields: [actionId], references: [id])
-  action_abstain Action?  @relation("VoteAbstain", fields: [actionId], references: [id])
+  userId        Int      @id @default(autoincrement())
+  address       String   @unique
+  miniGov       MiniGov? @relation(fields: [userMiniGovId], references: [name])
+  userMiniGovId String?
+  votes         Vote[]
 }
 
-model MiniGob {
-  id               Int    @id @default(autoincrement())
-  name             String
-  delegationAmount Int
-  members          User[]
+model MiniGov {
+  miniGovId      Int    @id @default(autoincrement())
+  name           String @unique
+  members        User[]
+  expirationDate Int // Amount of days, 1 - 60
 }
 
 model Action {
-  id           Int    @id @default(autoincrement())
-  vote_yes     User[] @relation("VoteYes")
-  vote_no      User[] @relation("VoteNo")
-  vote_abstain User[] @relation("VoteAbstain")
-  userId       Int?
+  actionId  Int      @id @unique @default(autoincrement()) //TxHash + Index
+  txHash    String   @unique
+  type_name String
+  startTime DateTime
+  votes     Vote[]
+}
+
+model Vote {
+  voteId       Int    @id @default(autoincrement())
+  type         String // YES | NO | ABSTAIN
+  votingPower  Int
+  voteUserId   String
+  voteActionId String
+  user         User   @relation(fields: [voteUserId], references: [address])
+  action       Action @relation(fields: [voteActionId], references: [txHash])
+
+  @@unique([voteUserId, voteActionId])
 }
