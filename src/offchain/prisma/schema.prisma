@@ -25,9 +25,8 @@ model MiniGov {
 }
 
 model Action {
-  actionId  Int      @id @default(autoincrement())
   title     String   @default("")
-  txHash    String   @unique
+  txHash    String   @id @unique
   index     Int
   type_name String
   startTime DateTime

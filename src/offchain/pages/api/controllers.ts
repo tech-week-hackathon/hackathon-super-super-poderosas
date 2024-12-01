@@ -32,7 +32,7 @@ export const getOrCreateMiniGov = async (
   name: string,
   admin: User,
   token: string,
-  expirationDate: number
+  expirationDate: number,
 ): Promise<MiniGov> => {
   const miniGov = await prisma.miniGov.findFirst({
     where: { name: name },
@@ -124,9 +124,9 @@ export const getAllMiniGovs = async (): Promise<miniGovsInfo[]> => {
 export const getAndCreateAction = async (
   hash: string,
   index: number,
-  type: string
+  type: string,
 ): Promise<Action> => {
-  const action = await prisma.action.findFirst({
+  const action = await prisma.action.findUnique({
     where: { txHash: hash },
   });
   if (!action) {
@@ -146,11 +146,17 @@ export const getAndCreateAction = async (
   }
 };
 
+export const getActions = async (): Promise<Action[]> => {
+  const actions = await prisma.action.findMany();
+  // TODO - filter actions by MiniGov
+  return actions;
+};
+
 export const getOrCreateVote = async (
   type: string,
   votingPower: number,
   voteUserId: string,
-  voteActionId: string
+  voteActionId: string,
 ): Promise<Vote | { message: string }> => {
   const vote = await prisma.vote.findFirst({
     where: { voteUserId: voteUserId, voteActionId: voteActionId },
@@ -172,7 +178,7 @@ export const getOrCreateVote = async (
 
 export const getAllVotes = async (
   txHash: string,
-  miniGovName: string
+  miniGovName: string,
 ): Promise<Vote[]> => {
   const action = await prisma.action.findUnique({
     where: { txHash },

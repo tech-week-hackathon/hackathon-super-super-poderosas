@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getActions } from "@/dbRequest";
+import { getActions } from "../controllers";
 
 // POST /api/userOrders
 // Required fields in body: userAddress
