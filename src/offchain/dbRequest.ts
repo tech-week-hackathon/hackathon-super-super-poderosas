@@ -28,7 +28,7 @@ export const createUser = async (addr: string) => {
 export const createAction = async (
   hash: string,
   index: number,
-  type: string
+  type: string,
 ) => {
   makeRequest(`/api/createAction`, { hash, index, type });
 };
@@ -37,7 +37,7 @@ export const createMiniGov = async (
   address: string,
   name: string,
   token: string,
-  expirationDate: number
+  expirationDate: number,
 ) => {
   const response = await makeRequest(`/api/createMiniGov`, {
     address,
@@ -57,6 +57,12 @@ export const getAllMiniGovs = async () => {
 
 export const joinMiniGov = async (address: string, name: string) => {
   makeRequest(`/api/joinMiniGov`, { address, name });
+};
+
+export const getActions = async () => {
+  const response = await makeRequest(`/api/getActions`, []);
+  const actions = JSON.parse(response.actions);
+  return actions;
 };
 
 export const updateDB = async (addr: string) => {

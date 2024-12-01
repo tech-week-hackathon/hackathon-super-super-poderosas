@@ -1,5 +1,5 @@
 import { MiniGobsTable } from "@/components/MiniGobsTable";
-import { useLucidProvider } from "@/context";
+import { getAllMiniGovs } from "@/dbRequest";
 import { miniGovsInfo } from "@/utils/types";
 import { Box, Heading } from "@chakra-ui/react";
 import Head from "next/head";
@@ -8,24 +8,16 @@ import { useEffect, useState } from "react";
 const Home = () => {
   const [mini, setMini] = useState<miniGovsInfo[]>([]);
   const [loading, setLoading] = useState(true);
-  const { lucidState } = useLucidProvider();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const data = await getAllMiniGovs();
-        // setMini(data);
+        const data = await getAllMiniGovs();
+        setMini(data);
       } catch (err) {
         console.error("Error fetching MiniGovs:", err);
       } finally {
         setLoading(false);
-        setMini([
-          {
-            name: "Error",
-            users_amount: 12,
-            token: "bla",
-          },
-        ]);
       }
     };
     fetchData();

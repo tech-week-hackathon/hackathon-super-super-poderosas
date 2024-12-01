@@ -7,7 +7,8 @@ import { Box, Button, Card, Flex, Grid, Heading } from "@chakra-ui/react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getActions } from "@/dbRequest";
 
 interface BlockfrostRes {
   tx_hash: string;
@@ -28,6 +29,18 @@ export default function Org() {
   const [bActions, setBActions] = useState<IAction[]>([]);
   const [actions, setActions] = useState([]);
   const { lucidState } = useLucidProvider();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getActions();
+        setActions(data);
+      } catch (err) {
+        console.error("Error fetching Actions:", err);
+      }
+    };
+    fetchData();
+  }, []);
 
   const getBlockfrostActions = async () => {
     const url =
