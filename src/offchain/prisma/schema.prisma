@@ -21,12 +21,14 @@ model User {
 model MiniGov {
   miniGovId      Int    @id @default(autoincrement())
   name           String @unique
+  token          String
   members        User[]
   expirationDate Int // Amount of days, 1 - 60
 }
 
 model Action {
-  actionId  Int      @id @unique @default(autoincrement()) //TxHash + Index
+  actionId  Int      @id @default(autoincrement())
+  title     String
   txHash    String   @unique
   type_name String
   startTime DateTime

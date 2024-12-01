@@ -14,6 +14,7 @@ import React, { useEffect, useState } from "react";
 // import { createUser, updateDB } from "../dbRequests";
 import Image from "next/image";
 import { ConnectOptions } from "../pages/_app";
+import { createUser, updateDB } from "@/dbRequest";
 
 export type Account = { address?: string; rewardAddress?: string };
 
@@ -39,7 +40,7 @@ export const ConnectWallet = ({
 
   const provider = new Blockfrost(
     "https://cardano-preprod.blockfrost.io/api/v0",
-    options.apiKey
+    options.apiKey,
   );
 
   const handleConnectClick = async (walletName: string) => {
@@ -70,13 +71,12 @@ export const ConnectWallet = ({
   };
 
   useEffect(() => {
-    // if (address) {
-    //   updateDB("");
-    //   createUser(address);
-    //   router.push("/orders/all-orders");
-    //   const shortenedAddress = `${address.slice(0, 6)}...${address.slice(-4)}`;
-    //   setButtonText(shortenedAddress);
-    // }
+    if (address) {
+      updateDB("");
+      createUser(address);
+      const shortenedAddress = `${address.slice(0, 6)}...${address.slice(-4)}`;
+      setButtonText(shortenedAddress);
+    }
     if (lucid) {
       setLucidState(lucid);
       setAccountState({
@@ -105,7 +105,7 @@ export const ConnectWallet = ({
                 height={20}
                 alt={selectedWallet == "eternl" ? "E" : "N"}
               />
-              {selectedWallet}
+              {buttonText}
             </Flex>
           ) : (
             <Button>{buttonText}</Button>
@@ -140,7 +140,7 @@ export const ConnectWallet = ({
 
 function getWalletInitialAPI(
   window: (Window & typeof globalThis) | null | undefined,
-  walletName: string
+  walletName: string,
 ) {
   let _a;
   const walletInitialAPI =

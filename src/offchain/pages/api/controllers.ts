@@ -1,4 +1,5 @@
 import prisma from "@/prisma/prisma";
+import { miniGovsInfo } from "@/utils/types";
 import { User, MiniGov, Action, Vote } from "@prisma/client";
 
 export const getOrCreateUser = async (address: string): Promise<User> => {
@@ -20,6 +21,7 @@ export const getOrCreateUser = async (address: string): Promise<User> => {
 export const getOrCreateMiniGov = async (
   name: string,
   admin: User,
+  token: string,
   expirationDate: number,
 ): Promise<MiniGov> => {
   const miniGov = await prisma.miniGov.findFirst({
@@ -29,8 +31,9 @@ export const getOrCreateMiniGov = async (
     const result = await prisma.miniGov.create({
       data: {
         name: name,
+        token: token,
         members: {
-          connect: { userId: admin.userId },
+          connect: { address: admin.address }, // REVIEW
         },
         expirationDate: expirationDate,
       },
@@ -41,8 +44,25 @@ export const getOrCreateMiniGov = async (
   }
 };
 
+export const getAllMiniGovs = async (): Promise<miniGovsInfo[]> => {
+  const miniGovs = await prisma.miniGov.findMany({
+    select: {
+      name: true,
+      _count: {
+        select: { members: true },
+      },
+    },
+  });
+
+  return miniGovs.map((miniGov) => ({
+    name: miniGov.name,
+    users_amount: miniGov._count.members,
+  }));
+};
+
 export const getAndCreateAction = async (
   name: string,
+  title: string,
   txHash: string,
 ): Promise<Action> => {
   const action = await prisma.action.findFirst({
@@ -52,6 +72,7 @@ export const getAndCreateAction = async (
     const result = await prisma.action.create({
       data: {
         type_name: name,
+        title: title,
         txHash: txHash,
         startTime: new Date(),
         votes: {},
@@ -68,7 +89,7 @@ export const getOrCreateVote = async (
   votingPower: number,
   voteUserId: string,
   voteActionId: string,
-): Promise<Vote> => {
+): Promise<Vote | { message: string }> => {
   const vote = await prisma.vote.findFirst({
     where: { voteUserId: voteUserId, voteActionId: voteActionId },
   });
@@ -83,6 +104,38 @@ export const getOrCreateVote = async (
     });
     return result;
   } else {
-    return vote;
+    return { message: "Ignore" };
   }
+};
+
+export const getAllVotes = async (
+  txHash: string,
+  miniGovName: string,
+): Promise<Vote[]> => {
+  const action = await prisma.action.findUnique({
+    where: { txHash },
+  });
+
+  if (!action) {
+    throw new Error("Action not found");
+  }
+
+  const votes = await prisma.vote.findMany({
+    where: {
+      action: {
+        txHash,
+      },
+      user: {
+        miniGov: {
+          name: miniGovName,
+        },
+      },
+    },
+    include: {
+      user: true,
+      action: true,
+    },
+  });
+
+  return votes;
 };
