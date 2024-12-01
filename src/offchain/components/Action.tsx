@@ -2,13 +2,23 @@ import AbstainIcon from "@/public/abstain.svg";
 import NoIcon from "@/public/no.svg";
 import YesIcon from "@/public/yes.svg";
 import { Button, Card, Flex, Heading, Separator } from "@chakra-ui/react";
+import { Lucid } from "lucid-txpipe";
 import Image from "next/image";
 import { useState } from "react";
-export const Action = ({ action }: { action: string }) => {
+
+export const Action = ({ lucid, action }: { lucid: Lucid | undefined, action: string }) => {
   const [yes, setYes] = useState(0);
   const [no, setNo] = useState(0);
   const [abstain, setAbstain] = useState(0);
   const [voted, setVoted] = useState(false);
+
+  const vote = (choice: string) => {
+    if (lucid) {
+      console.log("Voting ", choice)
+      // agregar call a al función
+    }
+  };
+
   return (
     <Card.Root>
       <Card.Header gap={{ base: "2", md: "5" }}>

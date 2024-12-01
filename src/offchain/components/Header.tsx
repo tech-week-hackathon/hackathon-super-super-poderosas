@@ -8,16 +8,17 @@ import { Account, ConnectWallet } from "./ConnectWallet";
 
 export const Header = ({
   provider,
+  setLucidState,
   extra,
 }: {
   provider: ConnectOptions;
+  setLucidState: React.Dispatch<React.SetStateAction<Lucid | undefined>>;
   extra: ReactElement;
 }) => {
   const [isConnected, setIsConnected] = useState(false);
-  const [lucidState, setLucidState] = useState<Lucid>();
   const [account, setAccountState] = useState<Account>();
 
-  console.log(isConnected, account, lucidState);
+  console.log(isConnected, account, setLucidState);
 
   return (
     <Box
