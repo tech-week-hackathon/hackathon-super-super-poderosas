@@ -19,8 +19,7 @@ model User {
 }
 
 model MiniGov {
-  miniGovId      Int    @id @default(autoincrement())
-  name           String @unique
+  name           String @id @unique
   token          String
   members        User[]
   expirationDate Int // Amount of days, 1 - 60

@@ -38,8 +38,22 @@ export const getOrCreateMiniGov = async (
         expirationDate: expirationDate,
       },
     });
+    await prisma.user.update({
+      where: { address: admin.address },
+      data: { userMiniGovId: result.name },
+    });
     return result;
   } else {
+    // // Ensure the admin is part of the MiniGov members
+    // await prisma.miniGov.update({
+    //   where: { name: miniGov.name },
+    //   data: {
+    //     members: {
+    //       connect: { address: admin.address }, // Ensure membership
+    //     },
+    //   },
+    // });
+
     return miniGov;
   }
 };

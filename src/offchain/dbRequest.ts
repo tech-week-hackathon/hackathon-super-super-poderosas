@@ -25,13 +25,15 @@ export const createUser = async (addr: string) => {
 };
 
 export const createMiniGov = async (
-  name: string,
   address: string,
+  name: string,
+  token: string,
   expirationDate: number,
 ) => {
   const response = await makeRequest(`/api/createMiniGov`, {
-    name,
     address,
+    name,
+    token,
     expirationDate,
   });
   const miniGov = JSON.parse(response.miniGov);

@@ -15,6 +15,7 @@ import { useState } from "react";
 
 import { Lucid } from "lucid-txpipe";
 import { Account } from "../components/ConnectWallet";
+import { createMiniGov } from "@/dbRequest";
 
 type Networks = "Mainnet" | "Preprod" | "Preview";
 
@@ -40,7 +41,7 @@ function App({ Component, pageProps }: AppProps) {
   const [policyId, setPolicyId] = useState("");
   const [tokenName, setTokenName] = useState("");
 
-  const createMiniGov = async () => {
+  const parseMiniGov = async () => {
     setLoading(true);
     setError(null);
 
@@ -48,31 +49,10 @@ function App({ Component, pageProps }: AppProps) {
       setError("Error connecting wallet");
       return;
     }
-    const requestBody = {
-      address: lucidState?.wallet.address(),
-      name: name,
-      // TODO: SOFI HACETE CARGO
-      token: policyId + tokenName,
-    };
 
     try {
-      const response = await fetch("/api/createMiniGov", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error("Error:", errorData.error);
-        throw new Error(errorData.error || "Error creating MiniGov");
-      }
-
-      const data = await response.json();
-      console.log("MiniGov creado:", JSON.parse(data.miniGov));
-      alert(data.message);
+      const address = await lucidState?.wallet.address();
+      await createMiniGov(address, name, policyId + tokenName, 7);
     } catch (e: any) {
       console.error("Error:", e);
       setError(e.message || "Something went wrong");
@@ -93,7 +73,7 @@ function App({ Component, pageProps }: AppProps) {
               <Modal
                 title="Create your Organization"
                 confirmText={loading ? "Creating..." : "Create MiniGov"}
-                onClickFn={createMiniGov}
+                onClickFn={parseMiniGov}
                 start={
                   <Button px="4" py="2" borderRadius="md" variant={"outline"}>
                     Create Organization
