@@ -1,13 +1,15 @@
 import { MiniGobsTable } from "@/components/MiniGobsTable";
+import { useLucidProvider } from "@/context";
 import { getAllMiniGovs } from "@/dbRequest";
 import { miniGovsInfo } from "@/utils/types";
 import { Box, Heading } from "@chakra-ui/react";
 import Head from "next/head";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Home = () => {
   const [mini, setMini] = useState<miniGovsInfo[]>([]);
   const [loading, setLoading] = useState(true);
+  const { lucid } = useLucidProvider();
 
   useEffect(() => {
     const fetchData = async () => {

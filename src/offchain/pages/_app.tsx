@@ -13,8 +13,10 @@ import { MeshProvider } from "@meshsdk/react";
 import type { AppProps } from "next/app";
 import { useState } from "react";
 
+import { LucidProvider } from "@/context";
 import { createMiniGov } from "@/dbRequest";
 import { Lucid } from "lucid-txpipe";
+import { useRouter } from "next/router";
 import { Account } from "../components/ConnectWallet";
 
 type Networks = "Mainnet" | "Preprod" | "Preview";
@@ -39,6 +41,7 @@ function App({ Component, pageProps }: AppProps) {
   const [policyId, setPolicyId] = useState("");
   const [tokenName, setTokenName] = useState("");
 
+  const router = useRouter();
   const parseMiniGov = async () => {
     setLoading(true);
     setError(null);
@@ -56,52 +59,55 @@ function App({ Component, pageProps }: AppProps) {
       setError(e.message || "Something went wrong");
     } finally {
       setLoading(false);
+      router.push(`/org/${name}`);
     }
   };
   return (
     <MeshProvider>
       <ChakraProvider value={defaultSystem}>
-        <Theme appearance="dark" colorPalette="pink">
-          <Header
-            provider={options}
-            setAccountState={setAccountState}
-            setIsConnected={setIsConnected}
-            setLucidState={setLucidState}
-            extra={
-              <Modal
-                title="Create your Organization"
-                confirmText={loading ? "Creating..." : "Create MiniGov"}
-                onClickFn={parseMiniGov}
-                start={
-                  <Button px="4" py="2" borderRadius="md" variant={"outline"}>
-                    Create Organization
-                  </Button>
-                }
-                error={error}
-              >
-                <Flex>
-                  <Input
-                    placeholder="Organization Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                  <Input
-                    placeholder="Token PolicyId"
-                    value={policyId}
-                    onChange={(e) => setPolicyId(e.target.value)}
-                  />
-                  <Input
-                    placeholder="Token Name"
-                    value={tokenName}
-                    onChange={(e) => setTokenName(e.target.value)}
-                  />
-                </Flex>
-              </Modal>
-            }
-          />
-          <Component {...pageProps} />
-          <Footer />
-        </Theme>
+        <LucidProvider>
+          <Theme appearance="dark" colorPalette="pink">
+            <Header
+              provider={options}
+              setAccountState={setAccountState}
+              setIsConnected={setIsConnected}
+              setLucidState={setLucidState}
+              extra={
+                <Modal
+                  title="Create your Organization"
+                  confirmText={loading ? "Creating..." : "Create MiniGov"}
+                  onClickFn={parseMiniGov}
+                  start={
+                    <Button px="4" py="2" borderRadius="md" variant={"outline"}>
+                      Create Organization
+                    </Button>
+                  }
+                  error={error}
+                >
+                  <Flex>
+                    <Input
+                      placeholder="Organization Name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                    <Input
+                      placeholder="Token PolicyId"
+                      value={policyId}
+                      onChange={(e) => setPolicyId(e.target.value)}
+                    />
+                    <Input
+                      placeholder="Token Name"
+                      value={tokenName}
+                      onChange={(e) => setTokenName(e.target.value)}
+                    />
+                  </Flex>
+                </Modal>
+              }
+            />
+            <Component {...pageProps} />
+            <Footer />
+          </Theme>
+        </LucidProvider>
       </ChakraProvider>
     </MeshProvider>
   );
