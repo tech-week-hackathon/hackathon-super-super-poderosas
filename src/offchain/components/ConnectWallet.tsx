@@ -11,7 +11,6 @@ import {
 
 import { Address, Blockfrost, Lucid, WalletApi } from "lucid-txpipe";
 import React, { useEffect, useState } from "react";
-// import { createUser, updateDB } from "../dbRequests";
 import Image from "next/image";
 import { ConnectOptions } from "../pages/_app";
 import { createUser, updateDB } from "@/dbRequest";
@@ -72,7 +71,7 @@ export const ConnectWallet = ({
 
   useEffect(() => {
     if (address) {
-      updateDB("");
+      // updateDB("");
       createUser(address);
       const shortenedAddress = `${address.slice(0, 6)}...${address.slice(-4)}`;
       setButtonText(shortenedAddress);

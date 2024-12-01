@@ -6,11 +6,15 @@ export const Modal = ({
   start,
   children,
   confirmText,
+  onClickFn,
+  error,
 }: {
   title: string;
   start: ReactElement;
   children: ReactElement;
   confirmText: string;
+  onClickFn: () => void;
+  error: string | null;
 }) => {
   return (
     <Dialog.Root placement={"center"} motionPreset="slide-in-bottom">
@@ -35,7 +39,8 @@ export const Modal = ({
           <Dialog.ActionTrigger asChild>
             <Button variant="outline">Cancel</Button>
           </Dialog.ActionTrigger>
-          <Button>{confirmText}</Button>
+          <div>{error}</div>
+          <Button onClick={onClickFn}>{confirmText}</Button>
         </Dialog.Footer>
         <Dialog.CloseTrigger />
       </Dialog.Content>

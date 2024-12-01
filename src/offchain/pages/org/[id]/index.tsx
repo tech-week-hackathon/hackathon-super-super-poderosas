@@ -1,6 +1,7 @@
 import { Action } from "@/components/Action";
+import { Modal } from "@/components/Modal";
 import { Gob } from "@/components/MiniGobsTable";
-import { Box, Grid, Heading } from "@chakra-ui/react";
+import { Box, Grid, Heading, Button } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
@@ -28,6 +29,16 @@ export default function Org() {
       <Head>
         {/* TODO: Change this */}
         <title>Organization-{id}</title>
+        <Modal
+          confirmText="Add action to Organization"
+          title={`Select a new action to add to ${id}`}
+          error=""
+          // TOOD: get proposals
+          onClickFn={() => {}}
+          start={<Button variant="outline">Add Action</Button>}
+        >
+          <div>Actions List</div>
+        </Modal>
       </Head>
       <Heading size={"5xl"}>{gob.name.toUpperCase()}</Heading>
       <Grid templateColumns="repeat(4, 1fr)" gap="6">

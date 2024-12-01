@@ -3,22 +3,22 @@ import FileSVG from "@/public/ssp.svg";
 import { Box, Flex, Separator } from "@chakra-ui/react";
 import { Lucid } from "lucid-txpipe";
 import Image from "next/image";
-import { ReactElement, useState } from "react";
+import { Dispatch, ReactElement, SetStateAction, useState } from "react";
 import { Account, ConnectWallet } from "./ConnectWallet";
 
 export const Header = ({
   provider,
   extra,
+  setIsConnected,
+  setLucidState,
+  setAccountState,
 }: {
   provider: ConnectOptions;
   extra: ReactElement;
+  setIsConnected: Dispatch<SetStateAction<boolean>>;
+  setLucidState: Dispatch<SetStateAction<Lucid | undefined>>;
+  setAccountState: Dispatch<SetStateAction<Account | undefined>>;
 }) => {
-  const [isConnected, setIsConnected] = useState(false);
-  const [lucidState, setLucidState] = useState<Lucid>();
-  const [account, setAccountState] = useState<Account>();
-
-  console.log(isConnected, account, lucidState);
-
   return (
     <Box
       as="header"
