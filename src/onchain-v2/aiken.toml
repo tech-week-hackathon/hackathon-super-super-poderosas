@@ -1,0 +1,16 @@
+name = "txpipe/onchain-v2"
+version = "0.0.0"
+compiler = "v1.0.29-alpha"
+plutus = "v2"
+license = "Apache-2.0"
+description = "Aiken contracts for project 'txpipe/onchain-v2'"
+
+[repository]
+user = "txpipe"
+project = "onchain-v2"
+platform = "github"
+
+[[dependencies]]
+name = "aiken-lang/stdlib"
+version = "1.9.0"
+source = "github"
